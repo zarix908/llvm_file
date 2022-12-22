@@ -8,5 +8,5 @@ cc_binary(
 
 llvm(
     name='llvm_main',
-    srcs=['main.ll']
+    srcs=['main.ll', 'file.ll']
 )
