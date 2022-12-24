@@ -1,5 +1,5 @@
-@signatures = constant [14 x i8] c"\08\89PNG\0D\0A\1a\0A\04\7fELF"
-@types = constant [38 x i8] c"\02\11PNG image data\00ELF linux executable\00"
+@signatures = constant [25 x i8] c"\08\89PNG\0D\0A\1a\0A\04\7fELF\05%PDF-\04\00asm"
+@types = constant [79 x i8] c"\04\13\28\35PNG image data\00ELF linux executable\00PDF document\00WebAssembly binary module\00"
 @unknown_filetype = constant [18 x i8] c"unknown file type\00"
 
 define i1 @match(i8* %position, [50 x i8]* %data) {
@@ -31,15 +31,15 @@ EndLoop:
 
 define i8* @get_type([50 x i8]* %data) {
 0:
-    %begin_pos = getelementptr [14 x i8], [14 x i8]* @signatures, i32 0, i32 0
+    %begin_pos = getelementptr [25 x i8], [25 x i8]* @signatures, i32 0, i32 0
     br label %Loop
 Loop:
     %pos = phi i8* [ %begin_pos, %0 ], [ %next_pos, %Continue ]
 
-    ; for (int i = 0; i < type_count = 1; i++)
+    ; for (int i = 0; i < type_count = 4; i++)
     %i = phi i32 [ 0, %0 ], [ %next_i, %Continue ]
     %next_i = add i32 %i, 1
-    %cond = icmp eq i32 %next_i, 2
+    %cond = icmp eq i32 %next_i, 4
     %match = call i1 @match(i8* %pos, [50 x i8]* %data)
     %len = load i8, i8* %pos
     %len_with_itself = add i8 %len, 1 
@@ -47,9 +47,9 @@ Loop:
 
     br i1 %match, label %Break, label %Continue
     Break:
-        %type_offset_ptr = getelementptr [38 x i8], [38 x i8]* @types, i32 0, i32 %i
+        %type_offset_ptr = getelementptr [79 x i8], [79 x i8]* @types, i32 0, i32 %i
         %type_offset = load i8, i8* %type_offset_ptr
-        %type = getelementptr [38 x i8], [38 x i8]* @types, i8 0, i8 %type_offset
+        %type = getelementptr [79 x i8], [79 x i8]* @types, i8 0, i8 %type_offset
         ret i8* %type
     Continue:
         br i1 %cond, label %EndLoop, label %Loop
