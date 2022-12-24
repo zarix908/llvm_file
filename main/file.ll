@@ -3,7 +3,7 @@ declare i64 @fread(i8* %buf, i64 %size, i64 %count, i8* %file)
 
 @readonly_flag = constant [2 x i8] c"r\00"
 
-define i1 @open_file(i8* %filename, [50 x i8]* %data) {
+define i1 @read_file(i8* %filename, [50 x i8]* %data) {
     %ro_flag = getelementptr [2 x i8], [2 x i8]* @readonly_flag, i8 0, i8 0
     %file = call i8* @fopen(i8* %filename, i8* %ro_flag)
     %code = ptrtoint i8* %file to i8
