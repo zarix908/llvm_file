@@ -7,6 +7,13 @@ cc_binary(
 )
 
 llvm(
+    name='llvm_wasm',
+    srcs=['signature.ll'],
+    arch='wasm32'
+)
+
+llvm(
     name='llvm_main',
-    srcs=['main.ll', 'file.ll', 'signature.ll']
+    srcs=['main.ll', 'file.ll', 'signature.ll'],
+    arch='x86-64'
 )
