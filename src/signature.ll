@@ -58,3 +58,12 @@ EndLoop:
     %unknown_type = getelementptr [18 x i8], [18 x i8]* @unknown_filetype, i8 0, i8 0
     ret i8* %unknown_type
 }
+
+
+; wasm only
+define i8* @getType([50 x i8]* %data) #0 {
+    %ptr = call i8* @get_type([50 x i8]* %data)
+    ret i8* %ptr
+}
+
+attributes #0 = { "wasm-export-name"="getType" }
