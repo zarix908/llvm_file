@@ -1,8 +1,8 @@
-load('//main:llvm.bzl', 'llvm')
+load('//src:llvm.bzl', 'llvm')
 
 cc_binary(
-    name = 'main',
-    srcs=[':llvm_main'],
+    name = 'binary',
+    srcs=[':llvm_binary'],
     linkopts=['-static']
 )
 
@@ -13,7 +13,7 @@ llvm(
 )
 
 llvm(
-    name='llvm_main',
+    name='llvm_binary',
     srcs=['main.ll', 'file.ll', 'signature.ll'],
     arch='x86-64'
 )
