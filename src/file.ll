@@ -15,9 +15,6 @@ Fail:
 
 Success:
     %data_ptr = getelementptr [50 x i8], [50 x i8]* %data, i8 0, i8 0
-    %count = call i64 @fread(i8* %data_ptr, i64 1, i64 50, i8* %file)
-    %last_byte_index = sub i64 %count, 1
-    %end_data = getelementptr i8, i8* %data_ptr, i64 %last_byte_index
-    store i8 0, i8* %end_data
+    call i64 @fread(i8* %data_ptr, i64 1, i64 50, i8* %file)
     ret i1 %open_failed
 }
