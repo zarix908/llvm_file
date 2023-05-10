@@ -39,12 +39,12 @@ Loop:
     ; for (int i = 0; i < type_count = 4; i++)
     %i = phi i32 [ 0, %0 ], [ %next_i, %Continue ]
     %next_i = add i32 %i, 1
-    %cond = icmp eq i32 %next_i, 4
-    %match = call i1 @match(i8* %pos, [50 x i8]* %data)
+
     %len = load i8, i8* %pos
     %len_with_itself = add i8 %len, 1 
     %next_pos = getelementptr i8, i8* %pos, i8 %len_with_itself
 
+    %match = call i1 @match(i8* %pos, [50 x i8]* %data)
     br i1 %match, label %Break, label %Continue
     Break:
         %type_offset_ptr = getelementptr [79 x i8], [79 x i8]* @types, i32 0, i32 %i
@@ -52,6 +52,7 @@ Loop:
         %type = getelementptr [79 x i8], [79 x i8]* @types, i8 0, i8 %type_offset
         ret i8* %type
     Continue:
+        %cond = icmp eq i32 %next_i, 4
         br i1 %cond, label %EndLoop, label %Loop
 EndLoop:
 
